@@ -118,8 +118,16 @@ export function LoansManager() {
 
       setTools(toolsData)
       setActiveLoans(loansData || [])
-    } catch (error) {
-      console.error("Error obteniendo datos:", error)
+    } catch (error: any) {
+      if (error && typeof error === "object") {
+        if (error.message) {
+          console.error("Error obteniendo datos:", error.message, error)
+        } else {
+          console.error("Error obteniendo datos:", JSON.stringify(error), error)
+        }
+      } else {
+        console.error("Error obteniendo datos:", error)
+      }
       toast.error("Error al cargar los datos de préstamos")
     } finally {
       setIsLoading(false)
